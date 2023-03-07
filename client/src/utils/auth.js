@@ -40,6 +40,7 @@ class AuthService {
 
   logout() {
     // Clear user token and profile data from localStorage
+    // in this process we remove the token once the user has logged out, to ensure it is not used by bad actors
     localStorage.removeItem('id_token');
     // this will reload the page and reset the state of the application
     window.location.assign('/');
@@ -47,3 +48,4 @@ class AuthService {
 }
 
 export default new AuthService();
+// are we exporting this as new because of how react handles state?
