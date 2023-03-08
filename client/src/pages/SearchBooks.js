@@ -72,6 +72,7 @@ const SearchBooks = () => {
     }
 
     try {
+      // dont we want to save this book to a user? or do we have that data already somewhere?...
       const { data } = savedBook({
         variables: bookId
       });
