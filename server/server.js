@@ -4,7 +4,6 @@ const express = require('express');
 // are integrating it into our express server using middleware.  
 const { ApolloServer } = require("@apollo/server");
 const { expressMiddleware } = require("@apollo/server/express4");
-const { authMiddleware } = require('./utils/auth')
 // not using path with graphql?
 // const path = require('path'); // not used for graphQL
 const {typeDefs, resolvers} = require('./schemas')
@@ -16,6 +15,7 @@ const http = require("http");
 
 const db = require('./config/connection');
 // const routes = require('./routes'); // not used for graphQL
+const { authMiddleware } = require('./utils/auth')
 
 const app = express();
 const httpServer = http.createServer(app);
