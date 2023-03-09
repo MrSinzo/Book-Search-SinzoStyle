@@ -15,7 +15,7 @@ const SavedBooks = () => {
 
  const {loading, error, data } = useQuery(GET_ME, 
   {
-    variables: userData
+    variables: {...userData}
   }, () => {
     const getUserData = async () => {
       try {
@@ -25,11 +25,11 @@ const SavedBooks = () => {
           return false;
         }
 
-        const response = await GET_ME(...data, token);
+        const response = await GET_ME(...data);
 
-        if (!response.ok) {
-          throw new Error('something went wrong!');
-        }
+        // if (!response.ok) {
+        //   throw new Error('something went wrong!');
+        // }
 
         const user = await response.json();
         setUserData(user);
@@ -39,7 +39,10 @@ const SavedBooks = () => {
     };
 
     getUserData();
-  }, [userDataLength]);
+  }, 
+  // console.log("line43"),
+  // console.log(userDataLength)
+  [userDataLength]);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
