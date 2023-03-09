@@ -46,41 +46,21 @@ const resolvers = {
 
       return { token, user };
     },
-    // *****************************************
-    //savebook?
-    // My code
-    // saveBook: async (parent, args, context) => {
-    //     console.log(context.user);
-    //     try {
-    //       const updatedUser = await User.findOneAndUpdate(
-    //         { _id: context.user._id },
-    //         { $addToSet: { savedBooks: args } },
-    //         { new: true, runValidators: true }
-    //       );
-    //       return res.json(updatedUser);
-    //     } catch (err) {
-    //       console.log(err);
-    //       return res.status(400).json(err);
-    //     }
-    // },
-    
-    //API route 
+    saveBook: async (parent, { bookId }, context) =>  {
+  console.log(context.user);
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: context.user._id },
+      { $addToSet: { savedBooks: {...bookId} } },
+      { new: true, runValidators: true }
+    );
+    return res.json(updatedUser);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err);
+  }
+},
 
-
-    // async saveBook({ user, body }, res) {
-    //   console.log(user);
-    //   try {
-    //     const updatedUser = await User.findOneAndUpdate(
-    //       { _id: user._id },
-    //       { $addToSet: { savedBooks: body } },
-    //       { new: true, runValidators: true }
-    //     );
-    //     return res.json(updatedUser);
-    //   } catch (err) {
-    //     console.log(err);
-    //     return res.status(400).json(err);
-    //   }
-    // },
     // GraphQL? Route
     // addThought: async (parent, { thoughtText }, context) => {
     //   if (context.user) {
