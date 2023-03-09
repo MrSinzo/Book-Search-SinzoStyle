@@ -69,8 +69,12 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
+  } else if (error) {
+    console.error(error);
+  } else {
+    console.log(data);
   }
 
   return (
@@ -82,6 +86,7 @@ const SavedBooks = () => {
       </Jumbotron>
       <Container>
         <h2>
+          {console.log(userData)}
           {userData.savedBooks.length
             ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}

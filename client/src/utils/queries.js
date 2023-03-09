@@ -6,7 +6,14 @@ query me {
     _id
     username
     bookCount
-    savedBooks
+    savedBooks{
+      bookId
+      authors
+      description
+      title
+      image
+      link
+    }
   }
 }
 `;

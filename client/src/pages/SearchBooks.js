@@ -75,7 +75,7 @@ const SearchBooks = () => {
     try {
       // dont we want to save this book to a user? or do we have that data already somewhere?...
       const { data } = savedBook({
-        variables: {...bookToSave, token}
+        variables: {...bookToSave}
       });
       console.log(bookToSave)
       // if (!data.ok) {
@@ -83,7 +83,7 @@ const SearchBooks = () => {
       // }
 
       // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+      setSavedBookIds([...savedBookIds, bookToSave.data]);
     } catch (err) {
       console.error(err);
     }

@@ -6,7 +6,7 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("books");
+        return User.findOne({ _id: context.user._id }).populate(User.savedBooks);
       }
       throw new GraphQLError("You need to be logged in!", {
         extensions: {
@@ -19,7 +19,7 @@ const resolvers = {
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
-      return { token, user };
+      return { token, user }; //works
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
@@ -46,20 +46,64 @@ const resolvers = {
 
       return { token, user };
     },
-    saveBook: async (parent, { bookId }, context) =>  {
-  console.log(context.user);
-  try {
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: context.user._id },
-      { $addToSet: { savedBooks: {...bookId} } },
-      { new: true, runValidators: true }
-    );
-    return res.json(updatedUser);
-  } catch (err) {
-    console.log(err);
-    return res.status(400).json(err);
-  }
-},
+
+
+    // trial 3
+    saveBook: async (parent, { bookId }, context) => {
+      return User.findOneAndUpdate(
+        { _id: context.user._id },
+        {
+          $addToSet: { savedbooks: { bookId } },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    }
+
+
+// Trial 2
+    // saveBook: async (parent, { bookId }, context) => {
+    //   if (context.user) {
+    //     const bookToSave = await User.create ({
+    //       bookId,
+    //       authors,
+    //       description,
+    //       title,
+    //       image,
+    //       link,
+    //     });
+    //     console.log(savedBook)
+    //     await User.findByIdAndUpdate(
+    //       { _id: context.user._id },
+    //       { $addToSet: { savedBook: bookToSave } }
+    //     );
+    //     return User;
+    //   }
+      //   throw new GraphQLError("You need to be logged in!", {
+      //   extensions: {
+      //   code: "UNAUTHENTICATED",
+      //   },
+      // });
+    // }
+
+    // trial 1
+
+    // saveBook: async (parent, { bookId }, context) => {
+    //   try {
+    //     const updatedUser = await User.findOneAndUpdate(
+    //       { _id: context.user._id },
+    //       { $addToSet: { savedBooks: { ...bookId } } },
+    //       { new: true, runValidators: true }
+    //     );
+    //     console.log(context.user._id);
+    //     return res.updatedUser
+    //   } catch (err) {
+    //     console.log(err);
+    //     return res.status(400).json(err);
+    //   }
+    // },
 
     // GraphQL? Route
     // addThought: async (parent, { thoughtText }, context) => {
@@ -84,10 +128,10 @@ const resolvers = {
     // },
     // *****************************************
     // removeBook
-        // My code
-        // deleteBook: async 
+    // My code
+    // deleteBook: async
 
-    //Api Route \/ 
+    //Api Route \/
     // async deleteBook({ user, params }, res) {
     //   const updatedUser = await User.findOneAndUpdate(
     //     { _id: user._id },
@@ -102,7 +146,7 @@ const resolvers = {
     // // from mini project
     // //GraphQL? Route
     // removeBook: async (parent, { thoughtId }, context) => {
-    //   if (context.user) {    
+    //   if (context.user) {
     //     //     \/ need to change \/ these
     //     const thought = await Thought.findOneAndDelete({
     //       _id: thoughtId, // need to change this?
@@ -122,7 +166,6 @@ const resolvers = {
     //     },
     //   });
     // },
-
   },
 };
 
