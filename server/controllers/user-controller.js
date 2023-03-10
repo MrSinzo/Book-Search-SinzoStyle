@@ -71,18 +71,3 @@ module.exports = {
     return res.json(updatedUser);
   },
 };
-
-// saveBook: async (parent, args, context) =>  {
-//   console.log(context.user);
-//   try {
-//     const updatedUser = await User.findOneAndUpdate(
-//       { _id: context.user._id },
-//       { $addToSet: { savedBooks: args } },
-//       { new: true, runValidators: true }
-//     );
-//     return res.json(updatedUser);
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json(err);
-//   }
-// },

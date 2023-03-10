@@ -45,8 +45,9 @@ const SearchBooks = () => {
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
         title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
+        description: book.volumeInfo.description || "",
         image: book.volumeInfo.imageLinks?.thumbnail || '',
+        link: ""
       }));
 
       setSearchedBooks(bookData);
@@ -58,13 +59,13 @@ const SearchBooks = () => {
 
   // create function to handle saving a book to our database
 
-  const [savedBook, { error, data }] = useMutation(SAVE_BOOK)
+  const [saveBook, { error }] = useMutation(SAVE_BOOK)
 
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
 
-    console.log(bookId) // we are getting an id on CLICK but not passing it to storage or whatever
+    console.log(bookToSave) // we are getting an id on CLICK but not passing it to storage or whatever
 
     const token = Auth.loggedIn() ? Auth.getToken() : null; // why do we need a token to save a book?
 
@@ -74,16 +75,17 @@ const SearchBooks = () => {
 
     try {
       // dont we want to save this book to a user? or do we have that data already somewhere?...
-      const { data } = savedBook({
+      console.log(bookToSave)
+      const { data } = saveBook({
         variables: {...bookToSave}
       });
-      console.log(bookToSave)
+      
       // if (!data.ok) {
       //   throw new Error('something went wrong!');
       // }
 
       // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookToSave.data]);
+      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);
     }

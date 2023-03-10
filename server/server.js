@@ -5,7 +5,7 @@ const express = require('express');
 const { ApolloServer } = require("@apollo/server");
 const { expressMiddleware } = require("@apollo/server/express4");
 // not using path with graphql?
-// const path = require('path'); // not used for graphQL
+// const path = require('path'); // not used for graphQL?
 const {typeDefs, resolvers} = require('./schemas')
 // This is an ApolloServer package to ensure our express server will shutdown correctly
 const {
@@ -14,7 +14,7 @@ const {
 const http = require("http");
 
 const db = require('./config/connection');
-// const routes = require('./routes'); // not used for graphQL
+// const routes = require('./routes'); // not used for graphQL?
 const { authMiddleware } = require('./utils/auth')
 
 const app = express();
@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })], //helps stop server?
 });
 
 app.use(express.urlencoded({ extended: true }));
